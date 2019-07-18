@@ -20,7 +20,7 @@ function displayResults(responseJson) {
 	        $('.results').append(`<img src=${currentImg}></img>`);
 	    }
     }else{
-    	$('.results').append(`<h5>We can not find that breed</h5>`);
+    	$('.results').append(`<h5>Search Again, we don't have that breed</h5>`);
     }
     
 }
