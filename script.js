@@ -1,40 +1,61 @@
-"use strict";
+'use strict';
 
-function watchUserInput() {
-  $("#dog-num-form").submit(e => {
-    e.preventDefault();
-    let userNumInput = $("#num-dog").val();
-    getDogImage(userNumInput);
-  });
-}
-
-$(function() {
-  console.log("App loaded");
-  watchUserInput();
-});
-
-function getDogImage(numInput) {
-  if (numInput < 3) {
-    fetch("https://dog.ceo/api/breeds/image/random/3")
+function getDogImage(value) {
+  if (typeof value === 'string'){
+    fetch(`https://dog.ceo/api/breed/${value}/images/random`)
       .then(response => response.json())
-      .then(responseJson => displayResults(responseJson))
-      .catch(error => alert("Something went wrong. Try again later."));
-  } else if (numInput > 50) {
-    return alert("Please choose a number equal or less than 50");
+      .then(responseJson => {
+        if (responseJson.status === 'success') {
+          displayBreedResults(responseJson);
+        }
+        else {
+          $('.js-results').append('<p>Not a breed in the inventory</p>');
+        }
+      })
+      .catch(() => alert('Something went wrong. Try again later.'));
   } else {
-    fetch(`https://dog.ceo/api/breeds/image/random/${numInput}`)
+    fetch(`https://dog.ceo/api/breeds/image/random/${value.toString()}`)
       .then(response => response.json())
       .then(responseJson => displayResults(responseJson))
-      .catch(error => alert("Something went wrong. Try again later."));
+      .catch(() => alert('Something went wrong. Try again later.'));
   }
 }
 
 function displayResults(responseJson) {
-  console.log(responseJson);
-  $(".results").html("");
-  responseJson.message.forEach(renderedImg => {
-    $(".results").append(`<img src="${renderedImg}" class="results">`);
-  });
-
-  $(".results").removeClass("hidden");
+  console.log(responseJson.message);
+  const imgString = responseJson.message.map(link => `<img src="${link}" class="js-results-img">`).join('');
+  console.log(imgString);
+  $('.js-results').html(imgString);
 }
+
+function watchForm() {
+  $('.numForm').submit(event => {
+    event.preventDefault();
+    const imgNum = parseInt($('.js-image-number').val());
+    $('.js-image-number').val('');
+    getDogImage(imgNum);
+  });
+}
+
+function displayBreedResults(responseJson) {
+  const imgString = `<img src="${responseJson.message}" class="js-results-img">`;
+  console.log(imgString);
+  $('.js-results').html(imgString);
+}
+
+function watchBreedForm() {
+  $('.breedForm').submit(event => {
+    event.preventDefault();
+    const breedType = $('.js-breed-image').val();
+    $('.js-breed-image').val('');
+    getDogImage(breedType);
+  });
+}
+
+
+
+$(function() {
+  console.log('App loaded! Waiting for submit!');
+  watchForm();
+  watchBreedForm();
+});

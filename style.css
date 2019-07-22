@@ -1,14 +1,14 @@
 * {
-    box-sizing: border-box;
-    max-width: 960px;
-  }
-  
-  body {
-    font-family: 'Roboto', sans-serif;
-  }
-  
+  box-sizing: border-box;
+  max-width: 960px;
+}
 
-  
-  .hidden {
-    display: none;
-  }
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+
+
+.hidden {
+  display: none;
+}
