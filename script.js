@@ -1,51 +1,40 @@
-'use strict';
+"use strict";
 
-function getDogImage(numberPics, breed) {
-    fetch('https://dog.ceo/api/breed/'+breed+'/images/random/' + numberPics) //update fetch to handle multiple//
-    .then(response => response.json())
-    .then(responseJson => 
-      displayResults(responseJson))
-    .catch(error => console.log('Something went wrong. Try again later.'));
-}
-
-function displayResults(responseJson) {
-    console.log(responseJson);
-    const numOfPics = responseJson.message.length;
-    $('.results').remove();
-    $('.user-input').after('<section class="results"></section>');
-    if (responseJson.status === 'success'){
-    	for (let i=0; i < numOfPics; i++){
-	        let currentImg = responseJson.message[i];
-	        console.log(currentImg);
-	        $('.results').append(`<img src=${currentImg}></img>`);
-	    }
-    }else{
-    	$('.results').append(`<h5>Search Again, we don't have that breed</h5>`);
-    }
-    
-}
-
-function clearResults() {
-    $('.user-input').on('click', '#clear-results', function() {
-        $('.results').remove();
-    })
-}
-
-function watchForm() {
-  $('form').submit(event => {
-    event.preventDefault();
-    const numberPics = parseInt($('.numberPics').val());
-    const breed = $('.breed').val();
-    if (numberPics > 0 && numberPics < 51){
-		getDogImage(numberPics, breed);
-    }else{
-    	console.log("Incorrect number");
-    }
+function watchUserInput() {
+  $("#dog-num-form").submit(e => {
+    e.preventDefault();
+    let userNumInput = $("#num-dog").val();
+    getDogImage(userNumInput);
   });
 }
 
 $(function() {
-  console.log('App loaded! Waiting for submit!');
-  watchForm();
-  clearResults();
+  console.log("App loaded");
+  watchUserInput();
 });
+
+function getDogImage(numInput) {
+  if (numInput < 3) {
+    fetch("https://dog.ceo/api/breeds/image/random/3")
+      .then(response => response.json())
+      .then(responseJson => displayResults(responseJson))
+      .catch(error => alert("Something went wrong. Try again later."));
+  } else if (numInput > 50) {
+    return alert("Please choose a number equal or less than 50");
+  } else {
+    fetch(`https://dog.ceo/api/breeds/image/random/${numInput}`)
+      .then(response => response.json())
+      .then(responseJson => displayResults(responseJson))
+      .catch(error => alert("Something went wrong. Try again later."));
+  }
+}
+
+function displayResults(responseJson) {
+  console.log(responseJson);
+  $(".results").html("");
+  responseJson.message.forEach(renderedImg => {
+    $(".results").append(`<img src="${renderedImg}" class="results">`);
+  });
+
+  $(".results").removeClass("hidden");
+}

@@ -1,31 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Dog API Example</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
-</head>
-<body>
-    <div class="container">
-    <h1>Random Dog Generator</h1>
-    <section class="user-input">
-        <form>
-            <label for="How many Dog pics?">How Many Pics?</label>
-            <input class="numberPics" type="text" name="How many pics?" value="">
-            <label for="What breed?">What breed?</label>
-            <input class="breed" type="text" name="What breed?" value="">
-            <input type="submit" value="Get dog pics!">
-        </form>
-    </br>
-        <button id="clear-results">Clear Results</button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="description"
+      content="Thinkful Simple GET Requests API assignment"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Dog API GET Request</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
+      integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <section id="container">
+      <h1 class="display-4 mb-4">Dog API</h1>
+      <hr />
+      <div id="input"></div>
+      <form id="dog-num-form">
+        <div class="form-group">
+          <h3>How many dog photos do you want between 3-50?</h3>
+          <input
+            type="text"
+            id="num-dog"
+            class="form-control"
+            placeholder="Choose 3 - 50 Random Dogs"
+            required
+          />
+        </div>
+        <div class="button">
+          <input
+            type="submit"
+            id="get"
+            class="btn btn-primary mr-4 get-dog-btn"
+            value="Get Dog Photo!"
+          />
+        </div>
+        <div class="results hidden"> 
+ <h3>Here's your dog pictures!!</h3>
+</div>
+      </form>
     </section>
-        <section class="results hidden">
-          <img class="results-img" alt="placeholder">
-        </section>
-    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="script.js"></script>
-</body>
+  </body>
 </html>
